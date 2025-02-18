@@ -39,6 +39,7 @@ function dataStruct = loadMotionCSVData(filename)
     % Read numeric data starting from row 8 (where Frame data starts)
     opts = detectImportOptions(filename);
     opts.DataLines = [8 Inf];
+    opts.VariableNamingRule = 'preserve'; % Preserve original column headers
     data = readtable(filename, opts);
 
     % Initialize structure to store data by column names

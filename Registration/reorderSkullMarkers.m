@@ -1,0 +1,67 @@
+function reorderedMotionData = reorderSkullMarkers(motionData, skullGeomagicPoints)
+    % 提取初始时刻的标记点位置
+    t0SkullPosition = [
+        motionData.RigidBodyMarkerGlassesMarker1PositionX(1), motionData.RigidBodyMarkerGlassesMarker2PositionX(1), motionData.RigidBodyMarkerGlassesMarker3PositionX(1), motionData.RigidBodyMarkerGlassesMarker4PositionX(1), motionData.RigidBodyMarkerGlassesMarker5PositionX(1);
+        motionData.RigidBodyMarkerGlassesMarker1PositionY(1), motionData.RigidBodyMarkerGlassesMarker2PositionY(1), motionData.RigidBodyMarkerGlassesMarker3PositionY(1), motionData.RigidBodyMarkerGlassesMarker4PositionY(1), motionData.RigidBodyMarkerGlassesMarker5PositionY(1);
+        motionData.RigidBodyMarkerGlassesMarker1PositionZ(1), motionData.RigidBodyMarkerGlassesMarker2PositionZ(1), motionData.RigidBodyMarkerGlassesMarker3PositionZ(1), motionData.RigidBodyMarkerGlassesMarker4PositionZ(1), motionData.RigidBodyMarkerGlassesMarker5PositionZ(1);
+    ];
+
+    % 计算参考点集合的距离矩阵
+    refDistanceMatrix = computeDistanceMatrix(skullGeomagicPoints);
+
+    % 初始化最小差异和最佳排列
+    minDifference = inf;
+    bestPermutation = [];
+
+    % 生成所有排列组合
+    permutations = perms(1:5); % 对5个标记点进行全排列
+
+    for i = 1:size(permutations, 1)
+        % 当前排列的点
+        permutedPoints = t0SkullPosition(:, permutations(i, :));
+
+        % 计算当前排列的距离矩阵
+        permutedDistanceMatrix = computeDistanceMatrix(permutedPoints);
+
+        % 计算与参考距离矩阵的差异
+        difference = computeDifference(refDistanceMatrix, permutedDistanceMatrix);
+
+        % 更新最优结果
+        if difference < minDifference
+            minDifference = difference;
+            bestPermutation = permutations(i, :);
+        end
+    end
+
+    % 根据最佳排列重排 motionData
+    reorderedMotionData = reorderMotionDataByPermutation(motionData, bestPermutation);
+end
+
+function distanceMatrix = computeDistanceMatrix(points)
+    % 计算点集合的距离矩阵
+    numPoints = size(points, 2);
+    distanceMatrix = zeros(numPoints, numPoints);
+    for i = 1:numPoints
+        for j = i+1:numPoints
+            distanceMatrix(i, j) = norm(points(:, i) - points(:, j));
+        end
+    end
+end
+
+function difference = computeDifference(matrixA, matrixB)
+    % 计算两个距离矩阵的差异
+    difference = sum(abs(matrixA(:) - matrixB(:)));
+end
+
+function reorderedMotionData = reorderMotionDataByPermutation(motionData, permutation)
+    % 根据排列顺序重排 motionData 中的标记点
+    reorderedMotionData = motionData;
+    for i = 1:5
+        reorderedMotionData.(['RigidBodyMarkerGlassesMarker' num2str(i) 'PositionX']) = ...
+            motionData.(['RigidBodyMarkerGlassesMarker' num2str(permutation(i)) 'PositionX']);
+        reorderedMotionData.(['RigidBodyMarkerGlassesMarker' num2str(i) 'PositionY']) = ...
+            motionData.(['RigidBodyMarkerGlassesMarker' num2str(permutation(i)) 'PositionY']);
+        reorderedMotionData.(['RigidBodyMarkerGlassesMarker' num2str(i) 'PositionZ']) = ...
+            motionData.(['RigidBodyMarkerGlassesMarker' num2str(permutation(i)) 'PositionZ']);
+    end
+end
