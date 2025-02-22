@@ -13,7 +13,7 @@ function viewKeyPointsData(keyGeomagicPoints)
         plot3(keyGeomagicPoints.UpperIncisorX, keyGeomagicPoints.UpperIncisorY, keyGeomagicPoints.UpperIncisorZ, 'LineWidth',1.5);
         xlabel('X'); ylabel('Y'); zlabel('Z');
         title('Trajectory of upper incisor');
-        grid on; axis equal;
+        grid on; box on; axis equal;
     end
 
     if switchLowerIncisor == 1
@@ -27,6 +27,6 @@ function viewKeyPointsData(keyGeomagicPoints)
         plot3(keyGeomagicPoints.LowerIncisorX, keyGeomagicPoints.LowerIncisorY, keyGeomagicPoints.LowerIncisorZ, 'LineWidth',1.5);
         xlabel('X'); ylabel('Y'); zlabel('Z');
         title('Trajectory of lower incisor');
-        grid on; axis equal;
+        grid on; box on; axis equal;
     end
 end
