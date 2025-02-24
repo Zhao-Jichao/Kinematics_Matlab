@@ -1,5 +1,10 @@
 # Kinematics_Matlab
 
+## Modified data processing details by testing more data 02/24/2025
+- Modified `loadMotionCSVData.m` function to ensure that rigid body names are defined correctly.
+- Modified `viewMotionData.m` function to check for the presence of probe data and display it.
+- Added `prviewRawMotionData.mlx` function to check data quality.
+
 ## Added process motion probe data function to get skull markers coordinates 02/22/2025
 - Added function 'reorderProbeMarkers.m' to rearrange its order to match the specified order.
 - Added function 'getTipOfProbe.m' to get the tip position based on the other four markers.

@@ -55,6 +55,27 @@ function dataStruct = loadMotionCSVData(filename)
         sanitizedType = regexprep(types{i}, '[^a-zA-Z0-9_]', '');
         sanitizedName = regexprep(names{i}, '[^a-zA-Z0-9_]', '');
         sanitizedRotation = regexprep(rotations{i}, '[^a-zA-Z0-9_]', '');
+
+        % Check function to ensure that rigid body names are defined correctly
+        if contains(sanitizedName, 'probe')
+            sanitizedName = strrep(sanitizedName, 'probe', 'Probe');
+        end
+
+        if contains(sanitizedName, 'mandible')
+            sanitizedName = strrep(sanitizedName, 'mandible', 'Mandible');
+        end
+
+        if contains(sanitizedName, 'glasses')
+            sanitizedName = strrep(sanitizedName, 'glasses', 'Glasses');
+        end
+
+        if contains(sanitizedName, 'Glass') && ~contains(sanitizedName, 'Marker')
+            definedSkullMarkerName = sanitizedName;
+            sanitizedName = 'Glasses';
+        end
+        if contains(sanitizedName, 'Glass') && contains(sanitizedName, 'Marker')
+            sanitizedName = strrep(sanitizedName, definedSkullMarkerName, 'Glasses');
+        end
         
         % Combine sanitized components into a header
         sanitizedHeader = strcat(sanitizedType, sanitizedName, sanitizedRotation, sanitizedFrame);

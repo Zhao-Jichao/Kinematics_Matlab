@@ -6,6 +6,15 @@ function viewMotionData(motionData)
 
     switchViewTrajectory = 1;
 
+    % Check for the presence of probe data
+    fields = fieldnames(motionData);
+    matches = contains(fields, 'Probe');
+    if sum(matches) ~= 0
+        switchViewProbeTrajectory = 1;
+    else
+        switchViewProbeTrajectory = 0;
+    end
+
     if switchViewSkullRB == 1
         figure
         plot(motionData.RigidBodyGlassesPositionX-motionData.RigidBodyGlassesPositionX(1), 'LineWidth',1.5); title("RigidBodyGlassesPositionX");
@@ -44,11 +53,11 @@ function viewMotionData(motionData)
 
     if switchViewTrajectory == 1
         figure; hold on;
-        scatter3(motionData.RigidBodyMarkerGlassesMarker1PositionX, motionData.RigidBodyMarkerGlassesMarker1PositionY, motionData.RigidBodyMarkerGlassesMarker1PositionZ, 'LineWidth',1.5);
-        scatter3(motionData.RigidBodyMarkerGlassesMarker2PositionX, motionData.RigidBodyMarkerGlassesMarker2PositionY, motionData.RigidBodyMarkerGlassesMarker2PositionZ, 'LineWidth',1.5);
-        scatter3(motionData.RigidBodyMarkerGlassesMarker3PositionX, motionData.RigidBodyMarkerGlassesMarker3PositionY, motionData.RigidBodyMarkerGlassesMarker3PositionZ, 'LineWidth',1.5);
-        scatter3(motionData.RigidBodyMarkerGlassesMarker4PositionX, motionData.RigidBodyMarkerGlassesMarker4PositionY, motionData.RigidBodyMarkerGlassesMarker4PositionZ, 'LineWidth',1.5);
-        scatter3(motionData.RigidBodyMarkerGlassesMarker5PositionX, motionData.RigidBodyMarkerGlassesMarker5PositionY, motionData.RigidBodyMarkerGlassesMarker5PositionZ, 'LineWidth',1.5);
+        plot3(motionData.RigidBodyMarkerGlassesMarker1PositionX, motionData.RigidBodyMarkerGlassesMarker1PositionY, motionData.RigidBodyMarkerGlassesMarker1PositionZ, 'LineWidth',1.5);
+        plot3(motionData.RigidBodyMarkerGlassesMarker2PositionX, motionData.RigidBodyMarkerGlassesMarker2PositionY, motionData.RigidBodyMarkerGlassesMarker2PositionZ, 'LineWidth',1.5);
+        plot3(motionData.RigidBodyMarkerGlassesMarker3PositionX, motionData.RigidBodyMarkerGlassesMarker3PositionY, motionData.RigidBodyMarkerGlassesMarker3PositionZ, 'LineWidth',1.5);
+        plot3(motionData.RigidBodyMarkerGlassesMarker4PositionX, motionData.RigidBodyMarkerGlassesMarker4PositionY, motionData.RigidBodyMarkerGlassesMarker4PositionZ, 'LineWidth',1.5);
+        plot3(motionData.RigidBodyMarkerGlassesMarker5PositionX, motionData.RigidBodyMarkerGlassesMarker5PositionY, motionData.RigidBodyMarkerGlassesMarker5PositionZ, 'LineWidth',1.5);
         plot3(motionData.RigidBodyMarkerMandibleMarker1PositionX, motionData.RigidBodyMarkerMandibleMarker1PositionY, motionData.RigidBodyMarkerMandibleMarker1PositionZ, 'LineWidth',1.5);
         plot3(motionData.RigidBodyMarkerMandibleMarker2PositionX, motionData.RigidBodyMarkerMandibleMarker2PositionY, motionData.RigidBodyMarkerMandibleMarker2PositionZ, 'LineWidth',1.5);
         plot3(motionData.RigidBodyMarkerMandibleMarker3PositionX, motionData.RigidBodyMarkerMandibleMarker3PositionY, motionData.RigidBodyMarkerMandibleMarker3PositionZ, 'LineWidth',1.5);
@@ -69,5 +78,17 @@ function viewMotionData(motionData)
         text(motionData.RigidBodyMarkerMandibleMarker4PositionX(1), motionData.RigidBodyMarkerMandibleMarker4PositionY(1), motionData.RigidBodyMarkerMandibleMarker4PositionZ(1), 'm4');
         text(motionData.RigidBodyMarkerMandibleMarker5PositionX(1), motionData.RigidBodyMarkerMandibleMarker5PositionY(1), motionData.RigidBodyMarkerMandibleMarker5PositionZ(1), 'm5');
         text(motionData.RigidBodyMarkerMandibleMarker6PositionX(1), motionData.RigidBodyMarkerMandibleMarker6PositionY(1), motionData.RigidBodyMarkerMandibleMarker6PositionZ(1), 'm6');
+        
+        if switchViewProbeTrajectory == 1
+            plot3(motionData.RigidBodyMarkerProbeMarker1PositionX, motionData.RigidBodyMarkerProbeMarker1PositionY, motionData.RigidBodyMarkerProbeMarker1PositionZ, 'LineWidth',1.5);
+            plot3(motionData.RigidBodyMarkerProbeMarker2PositionX, motionData.RigidBodyMarkerProbeMarker2PositionY, motionData.RigidBodyMarkerProbeMarker2PositionZ, 'LineWidth',1.5);
+            plot3(motionData.RigidBodyMarkerProbeMarker3PositionX, motionData.RigidBodyMarkerProbeMarker3PositionY, motionData.RigidBodyMarkerProbeMarker3PositionZ, 'LineWidth',1.5);
+            plot3(motionData.RigidBodyMarkerProbeMarker4PositionX, motionData.RigidBodyMarkerProbeMarker4PositionY, motionData.RigidBodyMarkerProbeMarker4PositionZ, 'LineWidth',1.5);
+
+            text(motionData.RigidBodyMarkerProbeMarker1PositionX(1), motionData.RigidBodyMarkerProbeMarker1PositionY(1), motionData.RigidBodyMarkerProbeMarker1PositionZ(1), 'p1');
+            text(motionData.RigidBodyMarkerProbeMarker2PositionX(1), motionData.RigidBodyMarkerProbeMarker2PositionY(1), motionData.RigidBodyMarkerProbeMarker2PositionZ(1), 'p2');
+            text(motionData.RigidBodyMarkerProbeMarker3PositionX(1), motionData.RigidBodyMarkerProbeMarker3PositionY(1), motionData.RigidBodyMarkerProbeMarker3PositionZ(1), 'p3');
+            text(motionData.RigidBodyMarkerProbeMarker4PositionX(1), motionData.RigidBodyMarkerProbeMarker4PositionY(1), motionData.RigidBodyMarkerProbeMarker4PositionZ(1), 'p4');
+        end
     end
 end
